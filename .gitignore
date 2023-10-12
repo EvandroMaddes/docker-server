@@ -1,0 +1,13 @@
+.tmp
+.idea
+*.log
+
+.storage/
+
+.env
+
+acme.json
+*.key
+*.pem
+
+portainer.db
