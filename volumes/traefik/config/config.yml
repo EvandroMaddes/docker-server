@@ -1,0 +1,55 @@
+http:
+  
+  #        #        #
+  # ROUTERS SECTION #
+  #        #        #
+  routers:
+    dashboard:
+      middlewares:
+        - auth
+      service: api@internal
+      # To set the value of a rule, use backticks ` or escaped double-quotes \".
+      rule: Host(`{{env "DOMAIN_NAME"}}`)
+      tls:
+        # nomepuntocom defined in traefik.yml
+        # You can set SANs (alternative domains) for each main domain.
+        # Every domain must have A/AAAA records pointing to Traefik.
+        # Each domain & SAN will lead to a certificate request.
+        certResolver: nomepuntocom
+        domains:
+          - main: "{{env "DOMAIN_NAME"}}"
+            sans:
+              - "*.{{env "DOMAIN_NAME"}}"
+    whoami:
+      middlewares:
+        - auth
+      entryPoints:
+        - "websecure"
+      service: whoami-sensor
+      # name are handled on dns of the router using CNAME, they are redirected on domain name and handle by 
+      # alternative rule using path over host rule: Host(`{{env "DOMAIN_NAME"}}`) && PathPrefix(`/whoami/`) host 
+      rule: Host(`whoami.{{env "DOMAIN_NAME"}}`)
+      # will terminate the TLS request.
+      # The options field enables fine-grained control of the TLS parameters.
+      # It refers to a TLS Options and will be applied only if a Host rule is defined.
+      tls: {}
+  
+  
+  #         #        #      
+  # SERVICES SECTION #
+  #         #        #
+  services:
+    whoami-sensor:
+      loadBalancer:
+        servers:
+          - url: "http://{{env "WHOAMI_INTERNAL_IP"}}:{{env "WHOAMI_PORT"}}"
+
+  
+  #            #        #
+  # MIDDLEWARES SECTION #
+  #            #        #
+  middlewares:
+    auth:
+      basicAuth:
+        usersFile: "/usersfile.txt"
+ 
