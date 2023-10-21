@@ -33,9 +33,11 @@ services:
       - DOMAIN_NAME
       - WHOAMI_INTERNAL_IP
       - WHOAMI_PORT
-      - PORTAINER_INTERNAL_IP
-      - PORTAINER_FE_PORT
-      - PORTAINER_EDGE_PORT
+      - FILEBROWSER_INTERNAL_IP
+      - FILEBROWSER_PORT
+      #- PORTAINER_INTERNAL_IP
+      #- PORTAINER_FE_PORT
+      #- PORTAINER_EDGE_PORT
       # Set values using env vars
       - TRAEFIK_CERTIFICATESRESOLVERS_MAIN_ACME_EMAIL=${USER_MAIL}
       - NAMECOM_USERNAME=${NAMECOM_USERNAME_PROD}
@@ -49,4 +51,24 @@ services:
       homeserver:
         # internal IP
         ipv4_address: ${WHOAMI_INTERNAL_IP}
+
+  filebrowser:
+    image: "hurlenko/filebrowser"
+    container_name: "filebrowser"
+    networks:
+      homeserver:
+        # internal IP
+        ipv4_address: ${FILEBROWSER_INTERNAL_IP}
+    #user id: group id of the user inside the docker container
+    user: "root:root"
+    volumes:
+      # mapping entire /mnt folder, if you want to mount a specific drive you can change this path.
+      - /mnt:/data
+      # mapping volumes folder inside /home/home-server/docker-server
+      - ./volumes/filebrowser/config:/config
+      - ./volumes/filebrowser/config/filebrowser.json:/.filebrowser.json
+      - ./volumes/filebrowser/config/filebrowser.db:/database.db
+
+    environment:
+      - FB_BASEURL=/volumes/filebrowser
 

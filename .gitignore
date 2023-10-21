@@ -1,6 +1,7 @@
 .tmp
 .idea
 *.log
+*.db
 .sh
 
 .storage/
