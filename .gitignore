@@ -9,7 +9,7 @@
 .env
 usersfile.txt
 
-.acme/
+acme.json
 *.key
 *.pem
 
