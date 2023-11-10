@@ -12,19 +12,20 @@ using [docker compose](https://docs.docker.com/compose) and relative yaml files.
 
 The server is hosted on [Raspberry Pi 4](https://www.raspberrypi.com/documentation/).
 
-Routing is managed by Traefik, all request are autheticated using trefik auth middleware.
+Routing is managed by Traefik, all request are autheticated using
+traefik [auth middleware](https://doc.traefik.io/traefik/middlewares/http/basicauth/).
 Users are listed in file `usersfile.txt`
-under [`traefik/config`](https://github.com/EvandroMaddes/docker-server/tree/develop/volumes/traefik/config) directory.
+under [`traefik/config`](/volumes/traefik/config) directory.
 Others containers are not directly accessible from internet.
 
 # Repository Structure
 
 All used containers are listed in
-the [`docker-compose.yml`](https://github.com/EvandroMaddes/docker-server/blob/develop/docker-compose.yml) file.\
+the [`docker-compose.yml`](docker-compose.yml) file.\
 Firstly a docker network is created (`${BASE_INTERNAL_IP}/24`), all containers will run inside it.\
 For each container there is a directory with relative files (data and configuration). They are stored
-inside [`volumes`](https://github.com/EvandroMaddes/docker-server/tree/develop/volumes) directory.\
-In the [`utils`](https://github.com/EvandroMaddes/docker-server/blob/develop/utils) directory there are scripts used for
+inside [`volumes`](/volumes) directory.\
+In the [`utils`](utils) directory there are scripts used for
 developing or debugging purposes.
 
 # Required network configuration
@@ -38,7 +39,7 @@ internet to your server and viceversa.
 In my case, I opened port 443 and port 80 to allow https and http traffic to Traefik container. Also port 8080 is opened
 to access the Traefik dashboard.
 Traefik is responsible to route the requests to the relative container and this is specified in
-the [`config/config.yml`](https://github.com/EvandroMaddes/docker-server/blob/develop/volumes/traefik/config/config.yml)
+the [`config/config.yml`](volumes/traefik/config/config.yml)
 file (rule section, one for each container).
 > Remember to open ports that are actually used by your Traefik container!
 
@@ -52,7 +53,7 @@ your main domain, this allows Traefik to execute the relative rule.
 # Environmental variables
 
 All variable are stored in a `.env` file at the same level
-of [`docker-compose.yml`](https://github.com/EvandroMaddes/docker-server/blob/develop/docker-compose.yml) file.
+of [`docker-compose.yml`](docker-compose.yml) file.
 
 - `DOMAIN_NAME`: name of hosted domain
 - `USER_MAIL`: personal mail used to register the domain
@@ -95,7 +96,7 @@ To run this docker-based server and expose it to the internet follow these steps
  docker compose up -d
 ```
 
-If all is good, on you command line you see:
+If all is good, on your command line you see:
 
 ```bash
 [+] Running 3/3
@@ -107,7 +108,7 @@ If all is good, on you command line you see:
 Type on your domain name on your browser, it redirects to Traefik dashboard.
 In my case it is:`https://${DOMAIN_NAME}`\
 To access FileBrowser, connect to the endpoint specified in
-the  [`config/config.yml`](https://github.com/EvandroMaddes/docker-server/blob/develop/volumes/traefik/config/config.yml)
+the  [`config/config.yml`](volumes/traefik/config/config.yml)
 file.
 In my case it is:`https://filebrowser.${DOMAIN_NAME}`
 
