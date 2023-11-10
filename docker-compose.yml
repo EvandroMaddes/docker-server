@@ -1,0 +1,74 @@
+
+networks:
+  homeserver:
+    name: "home-server"
+    ipam:
+      driver: default
+      config:
+        # internal IP
+        #CIDR address: first 24 bit are blocked, last 8 bit are free (0-255)
+        - subnet: ${BASE_INTERNAL_IP}/24
+          
+services:
+  traefik:
+    image: "traefik:latest"
+    container_name: "traefik"
+    ports:
+      - 8080:8080
+      - 80:80
+      - 443:443
+    volumes:
+      #:ro, read only access
+      - /var/run/docker.sock:/var/run/docker.sock:ro
+      - ./volumes/traefik/acme:/acme
+      - ./volumes/traefik/logs:/logs
+      - ./volumes/traefik/config/traefik.yml:/traefik.yml:ro
+      - ./volumes/traefik/config/config.yml:/config.yml
+      - ./volumes/traefik/config/usersfile.txt:/usersfile.txt:ro
+    networks:
+      homeserver:
+        # internal IP
+        ipv4_address: ${TRAEFIK_INTERNAL_IP}
+    environment:
+      # Used in traefik config.yml file [./volumes/traefik/config/config.yml]!
+      - DOMAIN_NAME
+      - WHOAMI_INTERNAL_IP
+      - WHOAMI_PORT
+      - FILEBROWSER_INTERNAL_IP
+      - FILEBROWSER_PORT
+      #- PORTAINER_INTERNAL_IP
+      #- PORTAINER_FE_PORT
+      #- PORTAINER_EDGE_PORT
+      # Set values using env vars
+      - TRAEFIK_CERTIFICATESRESOLVERS_MAIN_ACME_EMAIL=${USER_MAIL}
+      - NAMECOM_USERNAME=${NAMECOM_USERNAME_PROD}
+      - NAMECOM_API_TOKEN=${NAMECOM_API_TOKEN_PROD}
+      - NAMECOM_SERVER=${NAMECOM_SERVER_PROD}
+
+  whoami:
+    image: "traefik/whoami"
+    container_name: "whoami-sensor-service"
+    networks:
+      homeserver:
+        # internal IP
+        ipv4_address: ${WHOAMI_INTERNAL_IP}
+
+  filebrowser:
+    image: "hurlenko/filebrowser"
+    container_name: "filebrowser"
+    networks:
+      homeserver:
+        # internal IP
+        ipv4_address: ${FILEBROWSER_INTERNAL_IP}
+    #user id: group id of the user inside the docker container
+    user: "root:root"
+    volumes:
+      # mapping entire /mnt folder, if you want to mount a specific drive you can change this path.
+      - /mnt:/data
+      # mapping volumes folder inside /home/home-server/docker-server
+      - ./volumes/filebrowser/config:/config
+      - ./volumes/filebrowser/config/filebrowser.json:/.filebrowser.json
+      - ./volumes/filebrowser/config/filebrowser.db:/database.db
+    environment:
+      - FB_BASEURL=/volumes/filebrowser
+

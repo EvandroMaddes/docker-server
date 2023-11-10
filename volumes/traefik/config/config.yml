@@ -1,0 +1,65 @@
+http:
+  
+  #        #        #
+  # ROUTERS SECTION #
+  #        #        #
+  routers:
+    dashboard:
+      middlewares:
+        - auth
+      service: api@internal
+      # To set the value of a rule, use backticks ` or escaped double-quotes \".
+      rule: "Host(`{{env "DOMAIN_NAME"}}`)"
+      tls:
+        # nomepuntocom defined in traefik.yml
+        # You can set SANs (alternative domains) for each main domain.
+        # Every domain must have A/AAAA records pointing to Traefik.
+        # Each domain & SAN will lead to a certificate request.
+        # Certificates will be available to other routers using the specified domain
+        certResolver: nomepuntocom
+        domains:
+          - main: "{{env "DOMAIN_NAME"}}"
+            sans:
+              - "*.{{env "DOMAIN_NAME"}}"
+    whoami:
+      middlewares:
+        - auth
+      entryPoints:
+        - "websecure"
+      service: whoami-sensor
+      # name are handled on dns of the router using CNAME, they are redirected on domain name and handle by 
+      # alternative rule using path over host rule: Host(`{{env "DOMAIN_NAME"}}`) && PathPrefix(`/whoami/`) host 
+      rule: "Host(`{{env "DOMAIN_NAME"}}`) && PathPrefix(`/sensor`)"
+      # TLS section will terminate the TLS connections, meaning that it will send decrypted data to the services.
+      # the passthrough option can be specified to set whether the requests should be forwarded "as is", keeping all data encrypted.
+      tls: {}
+    filebrowser:
+      entryPoints:
+        - "websecure"
+      service: filebrowser-service
+      rule: "Host(`filebrowser.{{env "DOMAIN_NAME"}}`)"
+      tls: {}
+  
+  
+  #         #        #      
+  # SERVICES SECTION #
+  #         #        #
+  services:
+    whoami-sensor:
+      loadBalancer:
+        servers:
+          - url: "http://{{env "WHOAMI_INTERNAL_IP"}}:{{env "WHOAMI_PORT"}}"
+    filebrowser-service:
+      loadBalancer:
+        servers:
+          - url: "http://{{env "FILEBROWSER_INTERNAL_IP"}}:{{env "FILEBROWSER_PORT"}}"
+
+  
+  #            #        #
+  # MIDDLEWARES SECTION #
+  #            #        #
+  middlewares:
+    auth:
+      basicAuth:
+        usersFile: "/usersfile.txt"
+ 

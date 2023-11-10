@@ -1,0 +1,50 @@
+global:
+  checkNewVersion: true
+  sendAnonymousUsage: false
+
+entryPoints:
+  websecure:
+    address: ':443'
+  dashboard:
+    address: ':8080'
+  web:
+    address: ':80'
+    http:
+      redirections:
+        entryPoint:
+          to: websecure
+          scheme: https
+          permanent: true
+
+providers:
+  docker:
+    endpoint: "unix:///var/run/docker.sock"
+    exposedByDefault: false
+  file:
+    filename: "/config.yml"
+
+api:
+  dashboard: true
+  #insecure: true
+  debug: true
+
+log:
+  level: DEBUG
+  filePath: "/logs/traefik.log"
+accessLog:
+  filePath: "/logs/access_traefik.log"
+
+certificatesResolvers:
+  # Enable a tls challenge named "nomepuntocom"
+  nomepuntocom:
+    acme:
+      # production
+      caServer: https://acme-v02.api.letsencrypt.org/directory
+      # testing
+      #caServer: https://acme-staging-v02.api.letsencrypt.org/directory
+      # where certificate is stored
+      storage: "acme/acme.json"
+      tlsChallenge: {}
+      dnsChallenge:
+        provider: namedotcom
+        delayBeforeCheck: 0

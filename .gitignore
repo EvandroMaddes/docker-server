@@ -1,10 +1,13 @@
 .tmp
 .idea
 *.log
+*.db
+.sh
 
 .storage/
 
 .env
+usersfile.txt
 
 acme.json
 *.key
