@@ -7,7 +7,7 @@
 .storage/
 
 .env
-usersfile.txt
+usersfile
 
 acme.json
 *.key
