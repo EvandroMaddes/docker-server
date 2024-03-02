@@ -24,7 +24,7 @@ services:
       - ./volumes/traefik/logs:/logs
       - ./volumes/traefik/config/traefik.yml:/traefik.yml:ro
       - ./volumes/traefik/config/config.yml:/config.yml
-      - ./volumes/traefik/config/usersfile.txt:/usersfile.txt:ro
+      #- ./volumes/traefik/config/usersfile:/usersfile:ro
     networks:
       homeserver:
         # internal IP
@@ -64,11 +64,12 @@ services:
     user: "root:root"
     volumes:
       # mapping entire /mnt folder, if you want to mount a specific drive you can change this path.
-      - /mnt:/data
+      - /home/home-server/mnt:/data
       # mapping volumes folder inside /home/home-server/docker-server
-      - ./volumes/filebrowser/config:/config
+      #- ./volumes/filebrowser/config:/config
+      - ./volumes/filebrowser/config/filebrowser.db:/.filebrowser.db
       - ./volumes/filebrowser/config/filebrowser.json:/.filebrowser.json
-      - ./volumes/filebrowser/config/filebrowser.db:/database.db
     environment:
       - FB_BASEURL=/volumes/filebrowser
+
 
