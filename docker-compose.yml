@@ -64,9 +64,9 @@ services:
     user: "root:root"
     volumes:
       # mapping entire /mnt folder, if you want to mount a specific drive you can change this path.
-      - /home/home-server/mnt:/data
+      - /mnt/ext-disk-01/data:/data
       # mapping volumes folder inside /home/home-server/docker-server
-      #- ./volumes/filebrowser/config:/config
+      - ./volumes/filebrowser/config:/config
       - ./volumes/filebrowser/config/filebrowser.db:/.filebrowser.db
       - ./volumes/filebrowser/config/filebrowser.json:/.filebrowser.json
     environment:
