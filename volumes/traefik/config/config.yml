@@ -6,7 +6,7 @@ http:
   routers:
     dashboard:
       middlewares:
-        - auth
+      #  - auth
       service: api@internal
       # To set the value of a rule, use backticks ` or escaped double-quotes \".
       rule: "Host(`{{env "DOMAIN_NAME"}}`)"
@@ -23,7 +23,7 @@ http:
               - "*.{{env "DOMAIN_NAME"}}"
     whoami:
       middlewares:
-        - auth
+      #  - auth
       entryPoints:
         - "websecure"
       service: whoami-sensor
@@ -61,5 +61,7 @@ http:
   middlewares:
     auth:
       basicAuth:
-        usersFile: "/usersfile.txt"
+        users: admin:$$apr1$$lTm6sC9j$$p3R/Qzdp35u2iME.HhVCn/
+        headerField: "X-WebAuth-User"
+        
  

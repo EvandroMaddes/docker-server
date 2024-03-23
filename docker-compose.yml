@@ -44,6 +44,7 @@ services:
       - NAMECOM_USERNAME=${NAMECOM_USERNAME_PROD}
       - NAMECOM_API_TOKEN=${NAMECOM_API_TOKEN_PROD}
       - NAMECOM_SERVER=${NAMECOM_SERVER_PROD}
+    restart: unless-stopped
 
   whoami:
     image: "traefik/whoami"
@@ -52,6 +53,7 @@ services:
       homeserver:
         # internal IP
         ipv4_address: ${WHOAMI_INTERNAL_IP}
+    restart: unless-stopped
 
   filebrowser:
     image: "hurlenko/filebrowser"
@@ -71,5 +73,5 @@ services:
       - ./volumes/filebrowser/config/filebrowser.json:/.filebrowser.json
     environment:
       - FB_BASEURL=/volumes/filebrowser
-
+    restart: unless-stopped
 
