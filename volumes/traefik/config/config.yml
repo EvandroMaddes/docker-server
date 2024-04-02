@@ -39,7 +39,7 @@ http:
       service: filebrowser-service
       rule: "Host(`filebrowser.{{env "DOMAIN_NAME"}}`)"
       tls: {}
-  
+
   
   #         #        #      
   # SERVICES SECTION #
@@ -53,6 +53,10 @@ http:
       loadBalancer:
         servers:
           - url: "http://{{env "FILEBROWSER_INTERNAL_IP"}}:{{env "FILEBROWSER_PORT"}}"
+    telegram-bot-service:
+      loadBalancer:
+        servers:
+          - url: "http://{{env "TELEGRAM_BOT_INTERNAL_IP"}}:{{env "TELEGRAM_BOT_PORT"}}"
 
   
   #            #        #

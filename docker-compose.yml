@@ -36,6 +36,8 @@ services:
       - WHOAMI_PORT
       - FILEBROWSER_INTERNAL_IP
       - FILEBROWSER_PORT
+      - TELEGRAM_BOT_INTERNAL_IP
+      - TELEGRAM_BOT_PORT
       #- PORTAINER_INTERNAL_IP
       #- PORTAINER_FE_PORT
       #- PORTAINER_EDGE_PORT
@@ -75,3 +77,18 @@ services:
       - FB_BASEURL=/volumes/filebrowser
     restart: unless-stopped
 
+  telegram-bot:
+    build: ./volumes/telegram-bot/
+    container_name: "telegram-bot"
+    networks:
+      homeserver:
+        # internal IP
+        ipv4_address: ${TELEGRAM_BOT_INTERNAL_IP}
+    volumes:
+      - /opt/vc:/opt/vc:ro
+    devices:
+      - "/dev/vchiq:/dev/vchiq"
+    environment:
+      - BOT_TOKEN=${TELEGRAM_BOT_TOKEN}
+      - LD_LIBRARY_PATH=/usr/lib
+    restart: unless-stopped
