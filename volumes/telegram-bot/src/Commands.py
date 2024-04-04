@@ -66,7 +66,7 @@ async def callback_auto_message(context: ContextTypes.DEFAULT_TYPE) -> None:
 
     if temperature_float > float(TEMPERATURE_THRESHOLD):
         text = ("The temperature is above given threshold!!! \n"
-                "Temperature is : ") + str(temperature_float)
+                "Temperature is : ") + HelperFunctions.get_server_temperature_string()
         await context.bot.send_message(chat_id=job.chat_id, text=text)
 
 
@@ -76,7 +76,7 @@ async def command_start_temp_job(update: Update, context: ContextTypes.DEFAULT_T
     try:
         context.job_queue.run_repeating(callback_auto_message, 30, chat_id=chat_id, name=str(chat_id))
         text = "Correctly configurer temperature updater every 30 sec.! alert sent at " + str(
-            TEMPERATURE_THRESHOLD) + " C."
+            TEMPERATURE_THRESHOLD) + HelperFunctions.CELSIUS_DEGREE
         await update.effective_message.reply_text(text)
     except (IndexError, ValueError):
         await update.effective_message.reply_text("Error while setting auto temperature updater")
