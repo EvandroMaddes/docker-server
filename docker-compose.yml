@@ -38,6 +38,8 @@ services:
       - FILEBROWSER_PORT
       - TELEGRAM_BOT_INTERNAL_IP
       - TELEGRAM_BOT_PORT
+      - HOMEPAGE_INTERNAL_IP
+      - HOMEPAGE_PORT
       #- PORTAINER_INTERNAL_IP
       #- PORTAINER_FE_PORT
       #- PORTAINER_EDGE_PORT
@@ -50,7 +52,7 @@ services:
 
   whoami:
     image: "traefik/whoami"
-    container_name: "whoami-sensor-service"
+    container_name: " "
     networks:
       homeserver:
         # internal IP
@@ -91,4 +93,25 @@ services:
     environment:
       - BOT_TOKEN=${TELEGRAM_BOT_TOKEN}
       - LD_LIBRARY_PATH=/usr/lib
+    restart: unless-stopped
+
+  homepage:
+    image: ghcr.io/gethomepage/homepage:latest
+    container_name: "homepage"
+    networks:
+      homeserver:
+        # internal IP
+        ipv4_address: ${HOMEPAGE_INTERNAL_IP}
+    ports:
+      - ${HOMEPAGE_PORT}:${HOMEPAGE_PORT}
+    volumes:
+      - ./volumes/homepage/config:/app/config # Make sure your local config directory exists
+      - /var/run/docker.sock:/var/run/docker.sock # (optional) For docker integrations
+      - /mnt/ext-disk-01/data:/data:ro
+    environment:
+      - TZ=Europe/Rome
+      - HOMEPAGE_VAR_DOMAIN_NAME=${DOMAIN_NAME}
+      - HOMEPAGE_VAR_TELEGRAM_BOT=${TELEGRAM_BOT_URL}
+      - HOMEPAGE_VAR_GITHUB=${GITHUB_URL}
+      - HOMEPAGE_VAR_REDDIT=${REDDIT_URL}
     restart: unless-stopped

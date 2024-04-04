@@ -1,0 +1,22 @@
+---
+# For configuration options and examples, please see:
+# https://gethomepage.dev/latest/configs/service-widgets
+
+- resources:
+    label: CPU
+    cpu: true
+    cputemp: true
+
+- resources:
+    label: RAM-SSD
+    memory: true
+    disk: /
+
+- resources:
+    label: HDD
+    disk: /data
+
+- search:
+    provider: google
+    target: _blank
+    showSearchSuggestions: true

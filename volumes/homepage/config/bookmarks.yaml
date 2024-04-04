@@ -1,0 +1,20 @@
+---
+# For configuration options and examples, please see:
+# https://gethomepage.dev/latest/configs/bookmarks
+
+- Developer:
+    - Github:
+        - abbr: GH
+          icon: github
+          href: https://{{HOMEPAGE_VAR_GITHUB}}
+
+- Social:
+    - Reddit:
+        - abbr: RE
+          icon: reddit
+          href: https://{{HOMEPAGE_VAR_REDDIT}}
+
+#- Entertainment:
+#    - YouTube:
+#        - abbr: YT
+#          href: https://youtube.com/

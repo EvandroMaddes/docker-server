@@ -39,6 +39,15 @@ http:
       service: filebrowser-service
       rule: "Host(`filebrowser.{{env "DOMAIN_NAME"}}`)"
       tls: {}
+    homepage:
+    #  middlewares:
+    #    - homepage-strip-prefix
+      entryPoints:
+        - "websecure"
+      service: homepage-service
+      rule: "Host(`homepage.{{env "DOMAIN_NAME"}}`)"
+      #rule: "Host(`{{env "DOMAIN_NAME"}}`) && PathPrefix(`/homepage`)"
+      tls: {}
 
   
   #         #        #      
@@ -57,6 +66,10 @@ http:
       loadBalancer:
         servers:
           - url: "http://{{env "TELEGRAM_BOT_INTERNAL_IP"}}:{{env "TELEGRAM_BOT_PORT"}}"
+    homepage-service:
+      loadBalancer:
+        servers:
+          - url: "http://{{env "HOMEPAGE_INTERNAL_IP"}}:{{env "HOMEPAGE_PORT"}}"
 
   
   #            #        #
@@ -67,5 +80,3 @@ http:
       basicAuth:
         users: admin:$$apr1$$lTm6sC9j$$p3R/Qzdp35u2iME.HhVCn/
         headerField: "X-WebAuth-User"
-        
- 
