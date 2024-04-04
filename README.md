@@ -4,11 +4,13 @@ This repository stores all configuration files needed to run my personal home se
 From the software point of view, it is a docker-based environment. All containers are managed
 using [docker compose](https://docs.docker.com/compose) and relative yaml files.
 
-| Container                               | Description                                                                                                                                                                | Source                                                                          | Env variable                                                           |
-|-----------------------------------------|----------------------------------------------------------------------------------------------------------------------------------------------------------------------------|---------------------------------------------------------------------------------|------------------------------------------------------------------------|
-| [Traefik](https://traefik.io/traefik/)  | Reverse proxy and load balancer                                                                                                                                            | [traefik container](https://hub.docker.com/_/traefik)                           | <ul><li>`TRAEFIK_INTERNAL_IP`</li></ul>                                |
-| Whoami                                  | Tiny Go webserver that prints os information and HTTP request to output                                                                                                    | [whoami continer](https://registry.hub.docker.com/r/traefik/whoami)             | <ul><li>`WHOAMI_INTERNAL_IP`</li><li>`WHOAMI_PORT`</li></ul>           |
-| [FileBrowser](https://filebrowser.org/) | File Browser is a create-your-own-cloud-kind of software where you can install it on a server, direct it to a path and then access your files through a nice web interface | [filebrowser container](https://registry.hub.docker.com/r/hurlenko/filebrowser) | <ul><li>`FILEBROWSER_INTERNAL_IP`</li><li>`FILEBROWSER_PORT`</li></ul> |
+| Container                                   | Description                                                                                                                                                                                                                                          | Source                                                                                                            | Env variable                                                                                          |
+|---------------------------------------------|------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------|-------------------------------------------------------------------------------------------------------------------|-------------------------------------------------------------------------------------------------------|
+| [Traefik](https://traefik.io/traefik/)      | Reverse proxy and load balancer                                                                                                                                                                                                                      | [traefik container](https://hub.docker.com/_/traefik)                                                             | <ul><li>`TRAEFIK_INTERNAL_IP`</li></ul>                                                               |
+| Whoami                                      | Tiny Go webserver that prints os information and HTTP request to output                                                                                                                                                                              | [whoami continer](https://registry.hub.docker.com/r/traefik/whoami)                                               | <ul><li>`WHOAMI_INTERNAL_IP`</li><li>`WHOAMI_PORT`</li></ul>                                          |
+| [FileBrowser](https://filebrowser.org/)     | File Browser is a create-your-own-cloud-kind of software where you can install it on a server, direct it to a path and then access your files through a nice web interface                                                                           | [filebrowser container](https://registry.hub.docker.com/r/hurlenko/filebrowser)                                   | <ul><li>`FILEBROWSER_INTERNAL_IP`</li><li>`FILEBROWSER_PORT`</li></ul>                                |
+| Telegran-bot                                | Private telegram chat bot used to set up alerting job.                                                                                                                                                                                               | <ul><li>[Dockerfile](/volumes/telegram-bot/Dockerfile)</li><li>[Source code](/volumes/telegram-bot/src)</li></ul> | <ul><li>`TELEGRAM_BOT_INTERNAL_IP`</li><li>`TELEGRAM_BOT_PORT`</li><li>`TELEGRAM_BOT_TOKEN`</li></ul> |
+| [Hompage](https://gethomepage.dev/latest/)  | A modern, fully static, fast, secure fully proxied, highly customizable application dashboard with integrations for over 100 services and translations into multiple languages. Easily configured via YAML files or through docker label discovery.  | [homepage container](https://github.com/gethomepage/homepage/pkgs/container/homepage)                             | <ul><li>`HOMEPAGE_INTERNAL_IP`</li><li>`HOMEPAGE_PORT`</li><li>`TELEGRAM_BOT_TOKEN`</li></ul>         |
 
 The server is hosted on [Raspberry Pi 4](https://www.raspberrypi.com/documentation/).
 
@@ -67,7 +69,7 @@ In my case the domain is purchased from name.com, required information are usern
 - `NAMECOM_API_TOKEN_PROD`: token
 - `NAMECOM_SERVER_PROD`: server endpoint, i.e. _api.name.com_
 
-Static ip is assigned to docker network. The specified ip is internal to the docker network.
+Static ip is assigned to docker network. The specified ip is **internal** to the docker network.
 
 - `BASE_INTERNAL_IP`: ip
 
@@ -78,6 +80,12 @@ Static ip is assigned to docker network. The specified ip is internal to the doc
 
 - `FILEBROWSER_INTERNAL_IP`: filebrowser ip
 - `FILEBROWSER_PORT`: port assigned to filebrowser container
+
+- `TELEGRAM_BOT_INTERNAL_IP`: telegram bot ip
+- `TELEGRAM_BOT_PORT`: port assigned to telegram bot container
+
+- `HOMEPAGE_INTERNAL_IP`: homepage ip
+- `HOMEPAGE_PORT`: port assigned to homepage container
 
 # Getting Started
 
