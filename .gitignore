@@ -12,5 +12,6 @@ usersfile
 acme.json
 *.key
 *.pem
+*.mov
 
 portainer.db
