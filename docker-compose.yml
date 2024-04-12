@@ -73,6 +73,7 @@ services:
       - /mnt/ext-disk-01/data:/data
       # mapping volumes folder inside /home/home-server/docker-server
       - ./volumes/filebrowser/config:/config
+      - ./volumes/filebrowser/branding:/branding
       - ./volumes/filebrowser/config/filebrowser.db:/.filebrowser.db
       - ./volumes/filebrowser/config/filebrowser.json:/.filebrowser.json
     environment:
@@ -102,8 +103,6 @@ services:
       homeserver:
         # internal IP
         ipv4_address: ${HOMEPAGE_INTERNAL_IP}
-    ports:
-      - ${HOMEPAGE_PORT}:${HOMEPAGE_PORT}
     volumes:
       - ./volumes/homepage/config:/app/config # Make sure your local config directory exists
       - /var/run/docker.sock:/var/run/docker.sock # (optional) For docker integrations
@@ -115,3 +114,4 @@ services:
       - HOMEPAGE_VAR_GITHUB=${GITHUB_URL}
       - HOMEPAGE_VAR_REDDIT=${REDDIT_URL}
     restart: unless-stopped
+

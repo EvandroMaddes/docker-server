@@ -1,9 +1,29 @@
 ---
 # For configuration options and examples, please see:
 # https://gethomepage.dev/latest/configs/settings
-title: My Awesome Homepage
+title: Home
 providers:
   openweathermap: openweathermapapikey
   weatherapi: weatherapiapikey
 headerStyle: clean
 showStats: true
+
+layout:
+  CLOUD GROUP 😎:
+    style: row
+    columns: 2
+  SERVER MANAGEMENT:
+    style: row
+    columns: 2
+  Messaging:
+    style: row
+    columns: 2
+  Personal finance:
+    style: row
+    columns: 3
+  Developer:
+    style: row
+    columns: 1
+  Social:
+    style: row
+    columns: 1

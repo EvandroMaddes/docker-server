@@ -3,24 +3,12 @@
 # https://gethomepage.dev/latest/configs/services
 
 - CLOUD GROUP 😎:
-    - Traefik:
-          icon: traefik
-          href: "https://{{HOMEPAGE_VAR_DOMAIN_NAME}}"
-          description: Traefik dashboard
-          server: docker-server
-          container: traefik
     - Filebrowser:
         icon: filebrowser
         href: "https://filebrowser.{{HOMEPAGE_VAR_DOMAIN_NAME}}"
         description: Personal cloud storage
         server: docker-server # The docker server that was configured
         container: filebrowser # The name of the container you'd like to connect
-    - Sensor:
-        icon: healthchecks
-        href: "https://{{HOMEPAGE_VAR_DOMAIN_NAME}}/sensor"
-        description: Health check endpoint
-        server: docker-server #
-        container: whoami-sensor-service
     - Telegram-bot:
         icon: telegram
         href: "https://{{HOMEPAGE_VAR_TELEGRAM_BOT}}"
@@ -28,7 +16,22 @@
         server: docker-server #
         container: telegram-bot
 
-
+- SERVER MANAGEMENT:
+    - Traefik:
+        icon: traefik
+        href: "https://{{HOMEPAGE_VAR_DOMAIN_NAME}}"
+        description: Traefik dashboard
+        server: docker-server
+        container: traefik
+        widget:
+          type: traefik
+          url: "https://{{HOMEPAGE_VAR_DOMAIN_NAME}}"
+    - Sensor:
+        icon: healthchecks
+        href: "https://{{HOMEPAGE_VAR_DOMAIN_NAME}}/sensor"
+        description: Health check endpoint
+        server: docker-server #
+        container: whoami-sensor-service
 #- My Third Group:
 #    - My Third Service:
 #        href: http://localhost/

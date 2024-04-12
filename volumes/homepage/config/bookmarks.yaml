@@ -13,8 +13,31 @@
         - abbr: RE
           icon: reddit
           href: https://{{HOMEPAGE_VAR_REDDIT}}
+    - Linkedin:
+        - abbr: LK
+          icon: linkedin
+          href: https://www.linkedin.com
 
-#- Entertainment:
-#    - YouTube:
-#        - abbr: YT
-#          href: https://youtube.com/
+- Messaging:
+    - Gmail:
+        - abbr: GM
+          icon: gmail
+          href: https://mail.google.com/mail/u/0/?ogbl#inbox
+    - Whatsapp:
+        - abbr: WA
+          icon: whatsapp
+          href: https://web.whatsapp.com/
+
+-  Personal finance:
+     - Networth:
+         - abbr: NW
+           icon: google-sheets
+           href: https://docs.google.com/spreadsheets/d/1DIzmgdje-iody7FGnZMvjIJ52fUE7vlpyk9da2YDcBo/edit?usp=sharing
+     - Fineco Reply Plan:
+         - abbr: FN
+           icon: google-pay
+           href: https://finecobank.com/mercati-e-trading/etf/replay-plan
+     - Google Finance:
+         - abbr: GF
+           icon: google-wallet
+           href: https://www.google.com/finance/portfolio/7f05e23b-002a-40cb-9e7b-0a75233ed88b?window=1M
