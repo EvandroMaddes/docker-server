@@ -40,6 +40,8 @@ services:
       - TELEGRAM_BOT_PORT
       - HOMEPAGE_INTERNAL_IP
       - HOMEPAGE_PORT
+      - EMBY_INTERNAL_IP
+      - EMBY_PORT
       #- PORTAINER_INTERNAL_IP
       #- PORTAINER_FE_PORT
       #- PORTAINER_EDGE_PORT
@@ -108,10 +110,33 @@ services:
       - /var/run/docker.sock:/var/run/docker.sock # (optional) For docker integrations
       - /mnt/ext-disk-01/data:/data:ro
     environment:
-      - TZ=Europe/Rome
+      - TZ=${TZ}
       - HOMEPAGE_VAR_DOMAIN_NAME=${DOMAIN_NAME}
       - HOMEPAGE_VAR_TELEGRAM_BOT=${TELEGRAM_BOT_URL}
       - HOMEPAGE_VAR_GITHUB=${GITHUB_URL}
       - HOMEPAGE_VAR_REDDIT=${REDDIT_URL}
     restart: unless-stopped
 
+  emby:
+    image: emby/embyserver_arm64v8
+    container_name: emby
+    networks:
+      homeserver:
+        # internal IP
+        ipv4_address: ${EMBY_INTERNAL_IP}
+    ports:
+      - '8096:8096' # HTTP port
+      - '8920:8920' # HTTPS port
+      - '7359:7359'
+      - '1900:1900'
+    environment:
+      - UID=1000 # The UID to run emby as (default: 2)
+      - GID=1000 # The GID to run emby as (default 2)
+      - GIDLIST=0 # A comma-separated list of additional GIDs to run emby as (default: 2)
+      - TZ=${TZ}
+    volumes:
+      - ./volumes/emby/config:/config
+      - ./volumes/emby/media-test:/media
+    devices:
+      - /dev/vchiq:/dev/vchiq # MMAL/OMX on Raspberry Pi
+    restart: unless-stopped

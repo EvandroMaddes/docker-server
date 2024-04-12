@@ -40,13 +40,16 @@ http:
       rule: "Host(`filebrowser.{{env "DOMAIN_NAME"}}`)"
       tls: {}
     homepage:
-    #  middlewares:
-    #    - homepage-strip-prefix
       entryPoints:
         - "websecure"
       service: homepage-service
       rule: "Host(`homepage.{{env "DOMAIN_NAME"}}`)"
-      #rule: "Host(`{{env "DOMAIN_NAME"}}`) && PathPrefix(`/homepage`)"
+      tls: {}
+    emby:
+      entryPoints:
+        - "websecure"
+      service: emby-service
+      rule: "Host(`emby.{{env "DOMAIN_NAME"}}`)"
       tls: {}
 
   
@@ -70,6 +73,10 @@ http:
       loadBalancer:
         servers:
           - url: "http://{{env "HOMEPAGE_INTERNAL_IP"}}:{{env "HOMEPAGE_PORT"}}"
+    emby-service:
+      loadBalancer:
+        servers:
+          - url: "http://{{env "EMBY_INTERNAL_IP"}}:{{env "EMBY_PORT"}}"
 
   
   #            #        #
