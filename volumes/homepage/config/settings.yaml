@@ -15,6 +15,9 @@ layout:
   SERVER MANAGEMENT:
     style: row
     columns: 2
+  STREAMING:
+    style: row
+    columns: 2
   Messaging:
     style: row
     columns: 2

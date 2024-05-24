@@ -51,6 +51,18 @@ http:
       service: emby-service
       rule: "Host(`emby.{{env "DOMAIN_NAME"}}`)"
       tls: {}
+    sonarr:
+      entryPoints:
+        - "websecure"
+      service: sonarr-service
+      rule: "Host(`sonarr.{{env "DOMAIN_NAME"}}`)"
+      tls: {}
+    immich:
+      entryPoints:
+        - "websecure"
+      service: immich-server-service
+      rule: "Host(`immich.{{env "DOMAIN_NAME"}}`)"
+      tls: {}
 
   
   #         #        #      
@@ -77,6 +89,22 @@ http:
       loadBalancer:
         servers:
           - url: "http://{{env "EMBY_INTERNAL_IP"}}:{{env "EMBY_PORT"}}"
+    sonarr-service:
+      loadBalancer:
+        servers:
+          - url: "http://{{env "SONARR_INTERNAL_IP"}}:{{env "SONARR_PORT"}}"
+    qbittorrent-service:
+      loadBalancer:
+        servers:
+          - url: "http://{{env "QBITTORRENT_INTERNAL_IP"}}:{{env "QBITTORRENT_PORT"}}"
+    jackett-service:
+      loadBalancer:
+        servers:
+          - url: "http://{{env "JACKETT_INTERNAL_IP"}}:{{env "JACKETT_PORT"}}"
+    immich-server-service:
+      loadBalancer:
+        servers:
+          - url: "http://{{env "IMMICH_SERVER_INTERNAL_IP"}}:3001"
 
   
   #            #        #

@@ -44,6 +44,7 @@ certificatesResolvers:
       #caServer: https://acme-staging-v02.api.letsencrypt.org/directory
       # where certificate is stored
       storage: "acme/acme.json"
+      certificatesDuration: 2160
       tlsChallenge: {}
       dnsChallenge:
         provider: namedotcom

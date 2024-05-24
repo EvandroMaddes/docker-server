@@ -9,6 +9,16 @@
         description: Personal cloud storage
         server: docker-server # The docker server that was configured
         container: filebrowser # The name of the container you'd like to connect
+    - Immich:
+          icon: immich
+          href: "https://immich.{{HOMEPAGE_VAR_DOMAIN_NAME}}"
+          description: immich endpoint
+          server: docker-server #
+          container: immich_server
+          widget:
+              type: immich
+              url: "https://immich.{{HOMEPAGE_VAR_DOMAIN_NAME}}"
+              key: "{{HOMEPAGE_VAR_IMMICH_APIKEY}}"
     - Telegram-bot:
         icon: telegram
         href: "https://{{HOMEPAGE_VAR_TELEGRAM_BOT}}"
@@ -32,7 +42,52 @@
         description: Health check endpoint
         server: docker-server #
         container: whoami-sensor-service
-#- My Third Group:
-#    - My Third Service:
-#        href: http://localhost/
-#        description: Homepage is 😎
+      #  widget:
+      #      type: calendar
+      #      firstDayInWeek: sunday # optional - defaults to monday
+    - Postgres:
+          icon: postgres
+          description: postgres db
+          server: docker-server #
+          container: immich_postgres
+    - Redis:
+          icon: redis
+          description: redis cache
+          server: docker-server #
+          container: immich_redis
+    - Immich_microservices:
+          icon: immich
+          description: immich microservices
+          server: docker-server #
+          container: immich_microservices
+
+- STREAMING:
+    - Emby:
+        icon: emby
+        href: "https://emby.{{HOMEPAGE_VAR_DOMAIN_NAME}}"
+        description: emby endpoint
+        server: docker-server #
+        container: emby
+    - Sonarr:
+        icon: sonarr
+        href: "https://sonarr.{{HOMEPAGE_VAR_DOMAIN_NAME}}"
+        description: sonar endpoint
+        server: docker-server #
+        container: sonarr
+       #widget:
+       #  type: sonarr
+       #  url: "https://sonarr.{{HOMEPAGE_VAR_DOMAIN_NAME}}"
+       #  ey: "{{HOMEPAGE_VAR_SONARR_APIKEY}}"
+       #  enableQueue: true # optional, defaults to false
+    - qBitTorrent:
+        icon: qbittorrent
+        href: "http://{{HOMEPAGE_VAR_QBITTORRENT}}:8181"
+        description: qbittorrent endpoint
+        server: docker-server #
+        container: qbittorrent
+    - jackett:
+        icon: jackett
+        href: "http://{{HOMEPAGE_VAR_JACKETT}}:9117"
+        description: jackett endpoint
+        server: docker-server #
+        container: jackett

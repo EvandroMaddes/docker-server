@@ -7,6 +7,10 @@
         - abbr: GH
           icon: github
           href: https://{{HOMEPAGE_VAR_GITHUB}}
+    - Spotify:
+        - abbr: SF
+          icon: spotify
+          href: https://open.spotify.com/
 
 - Social:
     - Reddit:
