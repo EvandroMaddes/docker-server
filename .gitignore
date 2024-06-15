@@ -5,7 +5,11 @@
 .sh
 
 .storage/
-
+volumes/emby/
+volumes/jackett/
+volumes/sonarr/
+volumes/qbittorrent/
+volumes/immich/
 .env
 usersfile
 
