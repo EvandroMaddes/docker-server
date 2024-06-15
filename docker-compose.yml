@@ -132,7 +132,6 @@ services:
   immich-server:
     container_name: immich_server
     image: ghcr.io/immich-app/immich-server:${IMMICH_VERSION:-release}
-    command: [ 'start.sh', 'immich' ]
     user: "root:root"
     cpus: 3
     volumes:
@@ -148,31 +147,6 @@ services:
           ${IMMICH_SERVER_INTERNAL_IP}
     ports:
       - 2283:${IMMICH_SERVER_PORT}
-    depends_on:
-      - redis
-      - database
-    restart: unless-stopped
-
-  immich-microservices:
-    container_name: immich_microservices
-    image: ghcr.io/immich-app/immich-server:${IMMICH_VERSION:-release}
-    # extends: # uncomment this section for hardware acceleration - see https://immich.app/docs/features/hardware-transcoding
-    #   file: hwaccel.transcoding.yml
-    #   service: cpu # set to one of [nvenc, quicksync, rkmpp, vaapi, vaapi-wsl] for accelerated transcoding
-    command: [ 'start.sh', 'microservices' ]
-    user: "root:root"
-    cpus: 3
-    networks:
-      homeserver:
-        # internal IP
-        ipv4_address:
-          ${IMMICH_MS_INTERNAL_IP}
-    volumes:
-      - ${UPLOAD_LOCATION}:/usr/src/app/upload
-      - ${EXTERNAL_PATH_SHARED}:/usr/src/app/external/shared
-      - /etc/localtime:/etc/localtime:ro
-    env_file:
-      - .env
     depends_on:
       - redis
       - database

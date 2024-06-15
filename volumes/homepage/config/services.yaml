@@ -55,11 +55,6 @@
           description: redis cache
           server: docker-server #
           container: immich_redis
-    - Immich_microservices:
-          icon: immich
-          description: immich microservices
-          server: docker-server #
-          container: immich_microservices
 
 - STREAMING:
     - Emby:
