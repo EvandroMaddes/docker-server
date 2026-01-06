@@ -138,6 +138,7 @@ services:
     volumes:
       - ${UPLOAD_LOCATION}:/usr/src/app/upload
       - ${EXTERNAL_PATH_SHARED}:/usr/src/app/external/shared
+      - ${EXTERNAL_PATH_EVANDRO}:/usr/src/app/external/evandro
       - /etc/localtime:/etc/localtime:ro
     env_file:
       - .env
@@ -171,7 +172,9 @@ services:
 
   redis:
     container_name: immich_redis
-    image: registry.hub.docker.com/library/redis:6.2-alpine@sha256:51d6c56749a4243096327e3fb964a48ed92254357108449cb6e23999c37773c5
+    image: docker.io/valkey/valkey:8-bookworm@sha256:42cba146593a5ea9a622002c1b7cba5da7be248650cbb64ecb9c6c33d29794b1
+    healthcheck:
+      test: redis-cli ping || exit 1
     user: "root:root"
     networks:
       homeserver:
@@ -182,7 +185,7 @@ services:
 
   database:
     container_name: immich_postgres
-    image: registry.hub.docker.com/tensorchord/pgvecto-rs:pg14-v0.2.0@sha256:90724186f0a3517cf6914295b5ab410db9ce23190a2d9d0b9dd6463e3fa298f0
+    image: ghcr.io/immich-app/postgres:14-vectorchord0.3.0-pgvectors0.2.0
     user: "root:root"
     networks:
       homeserver:
